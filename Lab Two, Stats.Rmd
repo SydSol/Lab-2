@@ -1,0 +1,51 @@
+---
+title: "Lab Two, Stats"
+author: "Sydney Solomon"
+date: "2/18/2018"
+output: html_document
+---
+
+#settingup
+```{r}
+library(tidyverse)
+library(stringr)
+housing <- read.csv("http://colindawson.net/data/landdata-states.csv")
+glimpse(housing)
+```
+
+**Exercise 1**
+```{r}
+ggplot(hp2013Q1, aes(y = Home.Value, x = Land.Value)) + geom_point()
+```
+
+**Exercise 2**
+```{r}
+home_value_plot <- ggplot(hp2013Q1, aes(y = Home.Value, x = Land.Value)) + geom_point()
+home_value_plot
+```
+
+**Exercise 3**
+I do not think it makes sense to connect the data in this case. I think the lines do not add any to the graph. The lines represent the relationships between the two points. 
+
+**Exercise 4**
+```{r}
+new_plot <- home_value_plot + aes(color = Structure.Cost) + geom_point()
+new_plot
+```
+
+**Exercise 5**
+```{r}
+home_plot + geom_vline(aes(xintercept = 2), linetype = 4, color = "black") + scale_color_gradient2( breaks = c(1975.25, 1994.25, 2013.25), labels = c(1971, 1994, 2013), low = "green", high = "pink", mid = "black", midpoint = 1994.25)
+```
+
+**Exercise 6**
+I was unsure how to do this and I was unsure what the question was asking. 
+
+**Exercise 7**
+```{r}
+region_data <- housing %>% filter(str_detect(region, "NA") == FALSE)
+base_plot <- ggplot(region_data, aes(y=Home.Price.Index, x=Year))
+plot_price_year <- base_plot +geom_point()
+final_plot <- plot_price_year + facet_wrap(~region)
+final_plot
+```
