@@ -1,0 +1,92 @@
+---
+title: "Lab Two, Stats"
+author: "Sydney Solomon"
+date: "2/18/2018"
+output: html_document
+---
+
+#settingup
+```{r}
+library(tidyverse)
+library(stringr)
+housing <- read.csv("http://colindawson.net/data/landdata-states.csv")
+glimpse(housing)
+hp2013Q1 <- housing %>% filter(Date == 2013.25)
+```
+
+**Exercise 1**
+```{r}
+ggplot(hp2013Q1, aes(y = Home.Value, x = Land.Value)) + geom_point()
+```
+#I don't really know another way to answer this question, unless I had changed it from geom_point() to geom_line() but keeping it at geom_point() is a more effective visual representation. 
+
+**Exercise 2**
+```{r}
+home_value_plot <- ggplot(hp2013Q1, aes(y = Home.Value, x = Land.Value)) + geom_point()
+home_value_plot
+```
+
+**Exercise 3**
+I do not think it makes sense to connect the data in this case. I think the lines do not add anything to the graph. The lines represent the relationships between the two points. 
+#I think I could have expanded on this explanation. The lines would not have added anything to the graph because it would only have connected the points. However, the points, standing on their own, convey the information. 
+
+
+**Exercise 4**
+```{r}
+new_plot <- home_value_plot + aes(color = Structure.Cost) + geom_point()
+new_plot
+```
+
+**Exercise 5**
+```{r}
+home_plot <-ggplot(housing, aes(y = State, x = Home.Price.Index)) +
+  geom_point(
+    aes(color = Date),
+    alpha = 0.3,
+    size = 1.5,
+    position = position_jitter(width = 0, height = 0.25)
+    ) +
+  scale_y_discrete(name = "State Abbreviation") 
+home_plot + geom_vline(aes(xintercept = 1), linetype = 4, color = "black") + scale_color_gradient2( breaks = c(1975.25, 1994.25, 2013.25), labels = c(1971, 1994, 2013), low = "green", high = "pink", mid = "black", midpoint = 1994.25)
+```
+#I remember that in the lab I had to look at your code to figure out this question. It is still a bit hard for me to understand this code, even with your answers now. I start to get confused at the line of code that says breaks and labels. I don't really understand it from then-on.
+
+**Exercise 6**
+I was unsure how to do this and I was unsure what the question was asking. 
+#still unsure what you are asking
+```{r}
+home_plot +
+  scale_color_gradient2(
+    breaks = c(1975.25, 1994.25, 2013.25),
+    labels = c(1971, 1994, 2013),
+    low = "blue", high = "red", mid = "gray60",
+    midpoint = 1994.25) +
+  geom_vline(
+    aes(xintercept = 1), 
+    linetype = 3, 
+    color = "black")
+```
+#I also don't see any difference in the actual graphs. 
+
+**Exercise 7**
+#a question I had was how to give each region a specific color. I still am unable how to figure this out. 
+```{r}
+region_data <- housing %>% filter(str_detect(region, "NA") == FALSE)
+base_plot <- ggplot(region_data, aes(y=Home.Price.Index, x=Year))
+plot_price_year <- base_plot +geom_point()
+final_plot <- plot_price_year + facet_wrap(~region)
+final_plot
+```
+
+#your answer 
+```{r}
+land_value_plot <-
+  ggplot(
+    housing,
+    aes(x = Date, y = Land.Share..Pct.)
+  ) +
+  geom_line() +
+  facet_wrap(~State)
+land_value_plot
+```
+#personally, I find this graph confusing. I decided to do a graph by region because I felt the information was more digestable that way. I cut out DC in my graph because it was weird to only have information about a particualar state in a graph about regions. 
